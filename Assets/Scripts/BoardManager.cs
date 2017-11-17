@@ -91,7 +91,7 @@ public class BoardManager : MonoBehaviour {
         LayoutObjectAtRandom(foodTiles, foodCount.Minimum, foodCount.Maximum);
         int enemyCount = (int)Mathf.Log(Level, 2);
         LayoutObjectAtRandom(enemyTiles, enemyCount, enemyCount);
-        Debug.Log(enemyCount);
+        //Debug.Log(enemyCount);
         Instantiate(Exit, new Vector3(Columns - 1, Rows - 1, 0f), Quaternion.identity);
     }
 	void Start () {
