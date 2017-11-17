@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Walls : MonoBehaviour {
+public class Wall : MonoBehaviour {
 
     public Sprite dmgSprite;
     public int Hp = 4;
