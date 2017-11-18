@@ -24,6 +24,8 @@ public class Player : MovingObject {
     Animator _Animator;
     int Food;
 
+    Vector2 touchOrigin = -Vector2.one;
+
 	protected override void Start () {
 
         _Animator = GetComponent<Animator>();
@@ -42,11 +44,44 @@ public class Player : MovingObject {
         int Horizontal = 0;
         int Vertical = 0;
 
+#if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBPLAYER
+
+{
         Horizontal = (int)Input.GetAxisRaw("Horizontal");
         Vertical = (int)Input.GetAxisRaw("Vertical");
 
         if (Horizontal != 0)
+        {
             Vertical = 0;
+        }
+}
+
+    #else
+
+        if(Input.touchCount>0)
+        {
+            Touch myTouch = Input.touches[0];
+
+            if(myTouch.phase==TouchPhase.Began)
+            {
+                touchOrigin = myTouch.position;
+            }
+
+            else if(myTouch.phase==TouchPhase.Ended && touchOrigin.x>=0)
+            {
+                Vector2 touchEnd = myTouch.position;
+                float x = touchEnd.x - touchOrigin.x;
+                float y = touchEnd.y - touchOrigin.y;
+
+                touchOrigin.x = -1;
+                if (Mathf.Abs(x) > Mathf.Abs(y))
+                    Horizontal = x > 0 ? 1 : -1;
+                else
+                    Vertical = y > 0 ? 1 : -1;
+            }
+        }
+
+#endif
 
         if(Horizontal!=0 || Vertical!=0)
         {
